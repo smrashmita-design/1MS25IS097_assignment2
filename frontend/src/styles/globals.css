@@ -1,0 +1,568 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   NEXUS — design tokens
+   Dark is the primary theme; light is an optional, carefully tuned variant.
+   ========================================================================== */
+
+@theme inline {
+  --color-canvas: var(--nx-canvas);
+  --color-canvas-soft: var(--nx-canvas-soft);
+  --color-surface: var(--nx-surface);
+  --color-elevated: var(--nx-elevated);
+  --color-overlay: var(--nx-overlay);
+  --color-hairline: var(--nx-hairline);
+  --color-hairline-strong: var(--nx-hairline-strong);
+  --color-ink: var(--nx-ink);
+  --color-ink-muted: var(--nx-ink-muted);
+  --color-ink-faint: var(--nx-ink-faint);
+  --color-ink-ghost: var(--nx-ink-ghost);
+  --color-accent: var(--nx-accent);
+  --color-accent-soft: var(--nx-accent-soft);
+  --color-electric: var(--nx-electric);
+  --color-signal: var(--nx-signal);
+  --color-positive: var(--nx-positive);
+  --color-caution: var(--nx-caution);
+  --color-critical: var(--nx-critical);
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+
+  --radius-panel: 14px;
+  --radius-field: 12px;
+
+  --shadow-panel: 0 1px 0 0 rgba(255, 255, 255, 0.03) inset, 0 18px 48px -24px rgba(0, 0, 0, 0.9);
+  --shadow-float: 0 24px 64px -28px rgba(0, 0, 0, 0.95);
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --nx-canvas: #07070a;
+  --nx-canvas-soft: #0a0a10;
+  --nx-surface: #0e0e14;
+  --nx-elevated: #13131b;
+  --nx-overlay: #171720;
+
+  --nx-hairline: rgba(255, 255, 255, 0.07);
+  --nx-hairline-strong: rgba(255, 255, 255, 0.13);
+
+  --nx-ink: #edeef3;
+  --nx-ink-muted: #9ea0ae;
+  --nx-ink-faint: #6c6e7c;
+  --nx-ink-ghost: #45464f;
+
+  --nx-accent: #8b5cf6;
+  --nx-accent-soft: rgba(139, 92, 246, 0.14);
+  --nx-electric: #4f8cff;
+  --nx-signal: #22d3ee;
+  --nx-positive: #34d399;
+  --nx-caution: #fbbf24;
+  --nx-critical: #f87171;
+
+  --nx-grid-line: rgba(255, 255, 255, 0.028);
+  --nx-glow-a: rgba(139, 92, 246, 0.16);
+  --nx-glow-b: rgba(34, 211, 238, 0.09);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --nx-canvas: #f7f8fb;
+  --nx-canvas-soft: #eff1f6;
+  --nx-surface: #ffffff;
+  --nx-elevated: #ffffff;
+  --nx-overlay: #ffffff;
+
+  --nx-hairline: rgba(16, 18, 28, 0.09);
+  --nx-hairline-strong: rgba(16, 18, 28, 0.16);
+
+  --nx-ink: #12141d;
+  --nx-ink-muted: #54586a;
+  --nx-ink-faint: #787d90;
+  --nx-ink-ghost: #a7abba;
+
+  --nx-accent: #6d3df0;
+  --nx-accent-soft: rgba(109, 61, 240, 0.1);
+  --nx-electric: #2563eb;
+  --nx-signal: #0e8ba6;
+  --nx-positive: #059669;
+  --nx-caution: #b45309;
+  --nx-critical: #dc2626;
+
+  --nx-grid-line: rgba(16, 18, 28, 0.035);
+  --nx-glow-a: rgba(109, 61, 240, 0.1);
+  --nx-glow-b: rgba(14, 139, 166, 0.07);
+
+  --shadow-panel: 0 1px 2px rgba(16, 18, 28, 0.04), 0 12px 32px -20px rgba(16, 18, 28, 0.28);
+  --shadow-float: 0 20px 48px -24px rgba(16, 18, 28, 0.3);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * {
+    border-color: var(--nx-hairline);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--nx-canvas);
+    color: var(--nx-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+  }
+
+  ::selection {
+    background: var(--nx-accent-soft);
+    color: var(--nx-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--nx-accent) 70%, transparent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  input,
+  textarea,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  textarea {
+    field-sizing: content;
+  }
+}
+
+/* ==========================================================================
+   Scrollbars
+   ========================================================================== */
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--nx-ink) 14%, transparent);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--nx-ink) 26%, transparent);
+    background-clip: content-box;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--nx-ink) 16%, transparent) transparent;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@utility nx-surface-glass {
+  background: color-mix(in oklab, var(--nx-surface) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+@utility nx-hairline {
+  border: 1px solid var(--nx-hairline);
+}
+
+@utility nx-grid-field {
+  background-image:
+    linear-gradient(var(--nx-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--nx-grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: center center;
+}
+
+@utility nx-aurora {
+  background:
+    radial-gradient(70% 55% at 18% 0%, var(--nx-glow-a) 0%, transparent 62%),
+    radial-gradient(60% 50% at 88% 8%, var(--nx-glow-b) 0%, transparent 58%);
+}
+
+@utility nx-accent-ring {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--nx-accent) 34%, transparent),
+    0 0 24px -6px color-mix(in oklab, var(--nx-accent) 48%, transparent);
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes nx-shimmer {
+  0% {
+    background-position: -180% 0;
+  }
+  100% {
+    background-position: 180% 0;
+  }
+}
+
+@keyframes nx-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes nx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes nx-ping-soft {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+@utility nx-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--nx-ink) 7%, transparent) 45%,
+    transparent 90%
+  );
+  background-size: 220% 100%;
+  animation: nx-shimmer 2.4s ease-in-out infinite;
+}
+
+@utility nx-breathe {
+  animation: nx-breathe 1.7s ease-in-out infinite;
+}
+
+@utility nx-spin {
+  animation: nx-spin 0.9s linear infinite;
+}
+
+@utility nx-ping-soft {
+  animation: nx-ping-soft 1.9s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* ==========================================================================
+   Markdown rendering
+   ========================================================================== */
+
+.nx-prose {
+  color: var(--nx-ink);
+  font-size: 0.9375rem;
+  line-height: 1.72;
+}
+
+.nx-prose > * + * {
+  margin-top: 0.95em;
+}
+
+.nx-prose h1,
+.nx-prose h2,
+.nx-prose h3,
+.nx-prose h4 {
+  color: var(--nx-ink);
+  font-weight: 600;
+  letter-spacing: -0.017em;
+  line-height: 1.3;
+  margin-top: 1.5em;
+}
+
+.nx-prose h1 {
+  font-size: 1.5rem;
+}
+.nx-prose h2 {
+  font-size: 1.22rem;
+}
+.nx-prose h3 {
+  font-size: 1.05rem;
+}
+.nx-prose h4 {
+  font-size: 0.95rem;
+}
+
+.nx-prose > :first-child {
+  margin-top: 0;
+}
+
+.nx-prose p {
+  margin-top: 0.9em;
+}
+
+.nx-prose a {
+  color: var(--nx-electric);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--nx-electric) 36%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 160ms ease, color 160ms ease;
+}
+
+.nx-prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+.nx-prose strong {
+  font-weight: 600;
+  color: var(--nx-ink);
+}
+
+.nx-prose ul,
+.nx-prose ol {
+  padding-left: 1.35em;
+  margin-top: 0.9em;
+}
+
+.nx-prose ul {
+  list-style: disc;
+}
+.nx-prose ol {
+  list-style: decimal;
+}
+
+.nx-prose li {
+  margin-top: 0.4em;
+}
+
+.nx-prose li::marker {
+  color: var(--nx-ink-faint);
+}
+
+.nx-prose li > ul,
+.nx-prose li > ol {
+  margin-top: 0.35em;
+}
+
+.nx-prose blockquote {
+  border-left: 2px solid color-mix(in oklab, var(--nx-accent) 55%, transparent);
+  padding-left: 1em;
+  color: var(--nx-ink-muted);
+  font-style: italic;
+}
+
+.nx-prose hr {
+  border: 0;
+  border-top: 1px solid var(--nx-hairline);
+  margin: 1.6em 0;
+}
+
+.nx-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.855em;
+  background: color-mix(in oklab, var(--nx-ink) 7%, transparent);
+  border: 1px solid var(--nx-hairline);
+  padding: 0.12em 0.38em;
+  border-radius: 5px;
+  white-space: break-spaces;
+}
+
+.nx-prose pre {
+  background: color-mix(in oklab, var(--nx-canvas) 70%, var(--nx-surface));
+  border: 1px solid var(--nx-hairline);
+  border-radius: var(--radius-field);
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  font-size: 0.83rem;
+  line-height: 1.6;
+}
+
+.nx-prose pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+
+.nx-prose table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.875rem;
+  border: 1px solid var(--nx-hairline);
+  border-radius: var(--radius-field);
+  overflow: hidden;
+}
+
+.nx-prose thead {
+  background: color-mix(in oklab, var(--nx-ink) 4%, transparent);
+}
+
+.nx-prose th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--nx-ink);
+  padding: 0.62rem 0.85rem;
+  border-bottom: 1px solid var(--nx-hairline);
+  white-space: nowrap;
+}
+
+.nx-prose td {
+  padding: 0.62rem 0.85rem;
+  border-bottom: 1px solid var(--nx-hairline);
+  color: var(--nx-ink-muted);
+  vertical-align: top;
+}
+
+.nx-prose tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.nx-prose tbody tr:hover td {
+  background: color-mix(in oklab, var(--nx-ink) 2.5%, transparent);
+}
+
+/* ==========================================================================
+   Syntax highlighting (theme-aware, hand-tuned)
+   ========================================================================== */
+
+.hljs {
+  color: var(--nx-ink);
+  background: transparent;
+}
+.hljs-comment,
+.hljs-quote {
+  color: var(--nx-ink-ghost);
+  font-style: italic;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-section,
+.hljs-doctag,
+.hljs-type,
+.hljs-name,
+.hljs-strong {
+  color: #c792ea;
+}
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta .hljs-string {
+  color: #7fd6a8;
+}
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-template-variable,
+.hljs-variable {
+  color: #f0a875;
+}
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.function_,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #82aaff;
+}
+.hljs-attr,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #ffcb6b;
+}
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #ffcb6b;
+}
+.hljs-deletion {
+  color: #f07178;
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+
+[data-theme='light'] .hljs-keyword,
+[data-theme='light'] .hljs-selector-tag,
+[data-theme='light'] .hljs-literal,
+[data-theme='light'] .hljs-section,
+[data-theme='light'] .hljs-doctag,
+[data-theme='light'] .hljs-type,
+[data-theme='light'] .hljs-name,
+[data-theme='light'] .hljs-strong {
+  color: #8b2fa8;
+}
+[data-theme='light'] .hljs-string,
+[data-theme='light'] .hljs-regexp,
+[data-theme='light'] .hljs-addition,
+[data-theme='light'] .hljs-attribute,
+[data-theme='light'] .hljs-meta .hljs-string {
+  color: #0f7a52;
+}
+[data-theme='light'] .hljs-number,
+[data-theme='light'] .hljs-symbol,
+[data-theme='light'] .hljs-bullet,
+[data-theme='light'] .hljs-link,
+[data-theme='light'] .hljs-meta,
+[data-theme='light'] .hljs-template-variable,
+[data-theme='light'] .hljs-variable {
+  color: #b45309;
+}
+[data-theme='light'] .hljs-title,
+[data-theme='light'] .hljs-title.class_,
+[data-theme='light'] .hljs-title.function_,
+[data-theme='light'] .hljs-selector-id,
+[data-theme='light'] .hljs-selector-class {
+  color: #1d4ed8;
+}
+[data-theme='light'] .hljs-attr,
+[data-theme='light'] .hljs-selector-attr,
+[data-theme='light'] .hljs-selector-pseudo {
+  color: #92610a;
+}
+[data-theme='light'] .hljs-built_in,
+[data-theme='light'] .hljs-class .hljs-title {
+  color: #92610a;
+}
+[data-theme='light'] .hljs-deletion {
+  color: #b91c1c;
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

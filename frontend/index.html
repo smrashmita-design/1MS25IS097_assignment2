@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <meta
+      name="description"
+      content="NEXUS — a ReAct agent that reasons, calls a live web-search tool, observes the results and answers with cited sources."
+    />
+    <title>NEXUS — ReAct Intelligence</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Apply the persisted theme before React mounts to avoid a flash.
+      (function () {
+        try {
+          var stored = localStorage.getItem('nexus.theme') || 'system'
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+          var resolved = stored === 'system' ? (prefersLight ? 'light' : 'dark') : stored
+          document.documentElement.setAttribute('data-theme', resolved)
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark')
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
